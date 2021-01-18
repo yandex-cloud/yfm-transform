@@ -51,4 +51,17 @@ const tokenize = (lines = []) => md.parse(lines.join('\n'), {});
 
 const log = require('../lib/log');
 
-module.exports = {callPlugin, paragraph, tokenize, log};
+const getValidateAnchorsMd = ({root, path}) => {
+    const md = new MarkdownIt();
+    const {links, anchors, includes} = require('../lib/plugins');
+
+    [
+        links,
+        includes,
+        anchors,
+    ].forEach((plugin) => md.use(plugin, {root, path, log}));
+
+    return md;
+};
+
+module.exports = {callPlugin, paragraph, tokenize, getValidateAnchorsMd, log};
